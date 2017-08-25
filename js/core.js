@@ -1,14 +1,6 @@
 var my_errors = {fio: false, login: false, pass: false};
 $(document).ready(function () {
-	$('body').on('mouseover', '#check_profile', function (event) {
-		var style1 = this.style.background;
-		this.style.background="#D2D2D2";
-		this.style.cursor = "pointer";
-		$('body').on('mouseout', '#check_profile', function (event) {
-			this.style.background=style1;
-		});	
-	});	
-	
+
     $('body').on('click', '#check_profile', function (event) {
         var first_name = this.getElementsByTagName("td")[0].innerHTML;
         var last_name = this.getElementsByTagName("td")[1].innerHTML;
@@ -39,106 +31,8 @@ $(document).ready(function () {
         	location.href = "client_profile.php?id="+id_client;
 		});
     });
-	
-	$('body').on('click', 'button#edit_profile', function (event) {
-		var button_profile = document.getElementById('edit_profile');
-		if(button_profile.innerHTML != "Применить"){
-			button_profile.innerHTML = "Применить";
-			
-			document.getElementById('name_client').style.display = "none";
-			document.getElementById('input_name_client').style.display = "block";
-			
-			document.getElementById('text_profile_up').style.display = "none";
-			document.getElementById('input_birthday').style.display = "block";
-			
-			document.getElementById('text_profile_down').style.display = "none";
-			document.getElementById('input_text_profile_down').style.display = "block";
-			
-			document.getElementById('adr_profile').style.display = "none";
-			document.getElementById('input_adr_profile').style.display = "block";
-			
-			document.getElementById('email_profile').style.display = "none";
-			document.getElementById('input_email_profile').style.display = "block";
-			
-			document.getElementById('skype_profile').style.display = "none";
-			document.getElementById('input_skype_profile').style.display = "block";
-			
-			document.getElementById('friend_profile').style.display = "none";
-			document.getElementById('input_friend_profile').style.display = "block";
-			
-			document.getElementById('cons_profile').style.display = "none";
-			document.getElementById('input_cons_profile').style.display = "block";
-			
-			
-		} else {
-			button_profile.innerHTML = "Редактировать профиль";
-			document.getElementById('name_client').style.display = "block";
-			document.getElementById('input_name_client').style.display = "none";
-			
-			document.getElementById('text_profile_up').style.display = "block";
-			document.getElementById('input_birthday').style.display = "none";
-			
-			document.getElementById('text_profile_down').style.display = "block";
-			document.getElementById('input_text_profile_down').style.display = "none";
-			
-			document.getElementById('adr_profile').style.display = "block";
-			document.getElementById('input_adr_profile').style.display = "none";
-			
-			document.getElementById('email_profile').style.display = "block";
-			document.getElementById('input_email_profile').style.display = "none";
-			
-			document.getElementById('skype_profile').style.display = "block";
-			document.getElementById('input_skype_profile').style.display = "none";
-			
-			document.getElementById('friend_profile').style.display = "block";
-			document.getElementById('input_friend_profile').style.display = "none";
-			
-			document.getElementById('cons_profile').style.display = "block";
-			document.getElementById('input_cons_profile').style.display = "none";
-		}
-	});
 
-	$('body').on('click', 'button#add_purchase', function (event) {
-        	$('#modal_add_purchase').modal();
-			
-				$('body').on('click', 'button#modal_add_purchase', function (event) {
-					var modal_product = document.getElementById('modal_product').value;
-					var amount = document.getElementById('amount').value;
-					var serial_number = document.getElementById('serial_number').value;
-					var modal_type_purchase = document.getElementById('modal_type_purchase').value;
-					var number_doc = document.getElementById('number_doc').value;
-					var modal_status = document.getElementById('modal_status').value;
-					var modal_type_plaement = document.getElementById('modal_type_plaement').value;
-					var from_stock = document.getElementById('from_stock').value;
-					var id_client = document.getElementById('id_client').value; 
-					if(from_stock == ""){
-						from_stock="0";
-					}					
-					if(modal_product == "" || amount == "" || serial_number == "" || modal_type_purchase == "" || number_doc  == ""|| modal_status == "" || modal_type_plaement =="" || id_client == ""){
-						alert('Заполните все поля!');
-					}else{
-						$.ajax({
-							type: "POST",
-							url: "actions.php",
-							data: "mode=add_purchase"+
-							"&modal_product="+modal_product+
-							"&amount="+amount+
-							"&serial_number="+serial_number+
-							"&modal_type_purchase="+modal_type_purchase+
-							"&number_doc="+number_doc+
-							"&modal_status="+modal_status+
-							"&modal_type_plaement="+modal_type_plaement+
-							"&id_client="+id_client+
-							"&from_stock="+from_stock,
-							success: function(data){
-								alert('Покупка добавлена');
-								location.href = "client_profile.php?id="+id_client;
-							}
-						});
-					}
-				});	
-	});
-		
+
     $('body').on('click', 'button#add_client', function (event) {
         event.preventDefault();
 
@@ -182,15 +76,11 @@ $(document).ready(function () {
         }
     });
 
-	$('body').on('click', 'button#return_clients', function (event) {
-        	location.href = "clients.php";
-		});
-	
 	$('body').on('click', 'button#add_history', function (event) {
 		$("#modal_add_history").modal();
 		var text_history = document.getElementById('text_history');
 		var id_client = document.getElementById('id_client').value;			
-			$('body').on('click', 'button#modal_add_history', function (event) {
+			$('body').on('click', 'button#modal_add_history', function (event) {	//text_history.value
 				if(id_client != null && text_history != ""){
 					$.ajax({
 						 type: "POST",
@@ -209,29 +99,7 @@ $(document).ready(function () {
 	});
 	
 	$('body').on('click', 'button#add_photo', function (event) {
-		var id_client = document.getElementById('id_client').value;	
 		$("#modal_add_photo").modal();
-		$("form[name='uploader']").submit(function(e) {
-        var formData = new FormData($(this)[0]);
-        $.ajax({
-            url: "sys/upload_avatar.php",
-            type: "POST",
-            data: formData,
-            async: false,
-            success: function (msg) {
-                alert(msg);				
-            },
-            error: function(msg) {
-                alert('Ошибка!');
-            },
-            cache: false,
-            contentType: false,
-            processData: false
-        });
-        //e.preventDefault();
-		});
 	});
 
-
-	
 });
